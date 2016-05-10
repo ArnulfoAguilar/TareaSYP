@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Tarea SYP</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+// Se crea la Polylinea a partir de los click del usuario.
+
+var poly;
+var map;
+//Con esta funcion se inicializa el mapa
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 7,
+    center: {lat: 13.68935, lng: -89.18718}  // Centra el mapa en El Salvador
+  });
+
+  poly = new google.maps.Polyline({
+    strokeColor: '#000000',
+    strokeOpacity: 1.0,
+    strokeWeight: 3
+  });
+  poly.setMap(map);
+
+  // se Agrega un escuchador para cualquier evento "clic" en el mapa
+  map.addListener('click', addLatLng);
+}
+
+// Añade un nuevo punto a la polyline
+function addLatLng(event) {
+  var path = poly.getPath();
+
+  // Como el path es un array, automaticamente abre una nueva coordenada
+  // Y la linea aparece automaticamente
+  path.push(event.latLng);
+
+  // se agrega un nuevo marcador para la polyline creada.
+  var marker = new google.maps.Marker({
+    position: event.latLng,
+    title: '#' + path.getLength(),
+    map: map
+  });
+}
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdfSA05LBP9FmAvWDF29G2GlTYnWvKnas&signed_in=true&callback=initMap"></script>
+  </body>
+</html>
